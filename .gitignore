@@ -12,10 +12,12 @@ test/tmp
 test/version_tmp
 tmp
 *.DS_STORE
-build/
 .cache
 .vagrant
 .sass-cache
+
+# i might use the site output for CI/CD
+# build/
 
 # YARD artifacts
 .yardoc
