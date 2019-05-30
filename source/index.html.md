@@ -3,13 +3,10 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='https://www.finqware.com/joinalpha'>Sign Up for our alpha testing program</a>
 
 includes:
   - errors
@@ -17,13 +14,63 @@ includes:
 search: true
 ---
 
-# Introduction2
+# Quick start
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Finqware API!
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+This alpha program is about learning and testing various Open Banking APIs.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+1. <a href='https://www.finqware.com/joinalpha'>Register</a> yourself (personal or company) as a `servicer`
+2. Register a tenant app with your servicer and get your API keys
+3. Go through the skills catalog and check what you want to implement
+4. Write the code, use the sandbox mode for each _skill_ for test & dev
+
+# Terminology
+
+## Skills
+
+### Concept
+
+Open Banking is about _opening_ access for businesses to create value on top of financial services provided via APIs.
+
+Each API that we integrate into our middleware is a `skill`. Examples: an account information API from Bank X is a skill, a payment initiation service from Bank Y is another skill.
+
+With the initial releases, we'll focus on three skill types: marketplace, account information and payment initiation.
+
+### Account information
+
+These skills are mainly based on PSD2 AISP APIs from various banks.
+
+Use cases: wallet applications or enterprise systems that need to query for bank accounts and their respective transaction reports.
+
+### Payment initiation
+
+Based on PSD2 PISP APIs from various banks.
+
+Use cases: initiate a payment for a particular user, provided that the user holds an account with one of those banks.
+
+### Marketplace
+
+Based on custom connectors that we're building with our partner servicers. originate a financial product sell process that may
+
+## Servicers
+
+A `servicer` is a partner company registered with Finqware.
+
+It may be a bank or an insurance company providing skills into the middleware, or a fintech that consumes the Finqware API.
+
+Or even both: a bank may be providing its own API into the middleware and at the same time it may implement a multi-banking experience on top of Finqware.
+
+From a Finqware API consumer standpoint, a servicer may register multiple `tenant` apps.
+
+## Tenants
+
+A `tenant` is your software, consuming the Finqware API. It usually has two components:
+
+- a client-side application (eg: a mobile and/or a web front-end)
+- a server. This is where you run the business logic, the user database etc.
+
+It's important to make a clear distinction between the two. There are specific data items (i.e. tokens, secrets) that you can safely store in your client app, and others that we recommend to be used only in a server-to-Finqware communication.
 
 # Authentication
 
@@ -55,14 +102,12 @@ let api = kittn.authorize("meowmeowmeow");
 
 > Make sure to replace `meowmeowmeow` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Finqware uses API keys to allow access to the API. You can register for a test API key [here](https://www.finqware.com/joinalpha).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: test`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>test</code> with your personal API key.
 </aside>
 
 # Kittens
