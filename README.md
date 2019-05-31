@@ -6,6 +6,7 @@
 - deploy
   - bundle exec middleman build --clean
   - copy build to finqware.github.io repo
+    - rsync -aru slate/build/ finqware.github.io
 
 ## Features
 

@@ -209,7 +209,9 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo.png" class="logo" width="112" height="35" alt="Logo" />
+      <a href="https://www.finqware.com">
+        <img src="images/logo.png" class="logo" width="112" height="35" alt="Logo" />
+      </a>
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="javascript">javascript</a>
@@ -220,24 +222,44 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+            <a href="#quick-start" class="toc-h1 toc-link" data-title="Quick start">Quick start</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#skills" class="toc-h2 toc-link" data-title="Skills">Skills</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#servicers" class="toc-h2 toc-link" data-title="Servicers">Servicers</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#tenants" class="toc-h2 toc-link" data-title="Tenants">Tenants</a>
+                  </li>
+                  <li>
+                    <a href="#security-model" class="toc-h2 toc-link" data-title="Security model">Security model</a>
                   </li>
               </ul>
+          </li>
+          <li>
+            <a href="#guide" class="toc-h1 toc-link" data-title="Guide">Guide</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#user-onboarding" class="toc-h2 toc-link" data-title="User onboarding">User onboarding</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#catalog-api" class="toc-h1 toc-link" data-title="Catalog API">Catalog API</a>
+          </li>
+          <li>
+            <a href="#sessions-api" class="toc-h1 toc-link" data-title="Sessions API">Sessions API</a>
+          </li>
+          <li>
+            <a href="#aisp-apis" class="toc-h1 toc-link" data-title="AISP APIs">AISP APIs</a>
+          </li>
+          <li>
+            <a href="#marketplace-apis" class="toc-h1 toc-link" data-title="Marketplace APIs">Marketplace APIs</a>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
@@ -250,180 +272,136 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Finqware API! This API docs portal is a work in progress.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+        <h1 id='quick-start'>Quick start</h1>
+<p>Welcome to the <a href="https://www.finqware.com">Finqware</a> API!</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>This alpha phase is about learning and testing various Open Banking APIs.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"kittn"</span><span class="p">);</span>
+<ol>
+<li><a href="https://www.finqware.com/joinalpha">Register</a> yourself (personal or company) as a <code>servicer</code></li>
+<li>Register a tenant app with your servicer and get your API keys</li>
+<li>Go through the skills catalog and check what you want to implement</li>
+<li>Write the code, use the sandbox mode for each <em>skill</em> for test &amp; dev</li>
+</ol>
+<h1 id='overview'>Overview</h1><h2 id='skills'>Skills</h2><h3 id='concept'>Concept</h3>
+<p>Open Banking is about <em>opening</em> access for businesses to create value on top of financial services provided via APIs.</p>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s2">"meowmeowmeow"</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>Each API that we integrate into our middleware is a <code>skill</code>. Examples: an account information API from Bank X is a skill, a payment initiation service from Bank Y is another skill.</p>
 
-<p>Finqware uses API keys to allow access to the API. You can register for a test API key <a href="https://www.finqware.com/joinalpha">here</a>.</p>
+<p>With the initial releases, we&#39;ll focus on three skill types: account information, payment initiation and marketplace. As a roadmap item we&#39;re planning to introduce more utility such as <em>customer care</em> and skills related to <em>resource management</em>.</p>
 
-<p><code>Authorization: test</code></p>
+<p>Each skill comes in two flavors: production and sandbox. Test &amp; dev tenants will use sandbox skills.</p>
+<h3 id='account-information'>Account information</h3>
+<p>These skills are mainly based on PSD2 AISP APIs from various banks.</p>
 
-<aside class="notice">
-You must replace <code>test</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>Use cases: wallet applications or enterprise systems that need to query for bank accounts and transaction reports.</p>
+<h3 id='payment-initiation'>Payment initiation</h3>
+<p>Based on PSD2 PISP APIs from various banks.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>Use cases: merchants willing to accept payments through a direct account-to-account transfer bypassing classic payment schemes.</p>
+<h3 id='marketplace'>Marketplace</h3>
+<p>Based on custom connectors that we&#39;re building with our partner servicers.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"kittn"</span><span class="p">);</span>
+<p>Use cases: marketplaces interested in selling financial products without the hassle of a direct integration with banks, insurance providers etc.</p>
+<h2 id='servicers'>Servicers</h2>
+<p>A <code>servicer</code> is a partner company registered with Finqware.</p>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s2">"meowmeowmeow"</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<p>It may be a bank or an insurance company providing skills into the middleware, or a fintech that consumes the Finqware API.</p>
+
+<p>Or even both: a bank may be providing its own APIs into the middleware and at the same time it may implement a multi-banking experience on top of Finqware.</p>
+
+<p>From a Finqware API consumer standpoint, a servicer may register multiple <code>tenant</code> apps.</p>
+
+<p>A servicer has a number of developers/users with credentials on our developer&#39;s portal.</p>
+<h2 id='tenants'>Tenants</h2>
+<p>A <code>tenant</code> is your software, consuming the Finqware API. It usually has two components:</p>
+
+<ul>
+<li>a client-side application (eg: a mobile and/or a web front-end)</li>
+<li>a server. This is where you run the business logic, the user database etc.</li>
+</ul>
+
+<p>It&#39;s important to make a clear distinction between the two. There are specific data items (i.e. tokens, secrets) that you can safely store in your client app, and others that we recommend to be used only in a server-to-Finqware communication.</p>
+
+<p>A servicer may register multiple tenant apps for different business cases or just for technical reasons (eg: test &amp; prod apps).</p>
+
+<p>For a granular access control and reporting, each tenant is required to register the list of skills it connects to.</p>
+<h2 id='security-model'>Security model</h2><h1 id='guide'>Guide</h1>
+<p>This section is for <a href="#tenants">tenant</a> app developers who want to implement the base API (REST &amp; GraphQL). As a roadmap item, we&#39;ll provide open source SDKs to simplify this process.</p>
+
+<p>Implementing Finqware <a href="#skills">skills</a> is always centered around the <strong>end-user</strong> - the individual or institution who owns the data queried through the middleware. As a <a href="#tenants">tenant</a> app developer, you&#39;re implementing two aspects:</p>
+
+<ol>
+<li><p>A conversational UX that takes the user through a number of action steps in order to get access to the data. This is a web or native-mobile UI that takes your user through an onboarding experience.</p></li>
+<li><p>A Backend/server piece that consumes data the user has already consented for.</p></li>
+</ol>
+<h2 id='user-onboarding'>User onboarding</h2>
+<p>The first thing to focus on is to offer your user a smooth onboarding experience. It may be a classic wizard with a step-by-step approach or a more inovative approach like chatbot or voice-based UIs.</p>
+
+<p>The <a href="#sessions-api">Sessions API</a> helps you implement such a UI. A session is very similar to what most of us know from web programming: an ordered sequence of steps that share the same state. Although this is a unified developer experience, each skill may have particular steps to implement.</p>
+
+<p>Practical examples:</p>
+
+<ul>
+<li>getting the user consent for an account information skill is a one-step session (i.e. trigger the strong customer authentication process)</li>
+<li>selling a bank deposit product takes the user through multiple steps where the user may be required to submit information and upload data in separate steps due to inter-step dependencies.</li>
+</ul>
+
+<p>As we integrate more skills into the middleware, we&#39;ll be documenting the required steps for each case. The Sessions API is generic enough to support complex conversational UIs that involve multiple iterations, uploads, synchronous and asynchronous communication (eg: cases where the online session might be interrupted due to an offline verification).</p>
+
+<p>This diagram is an example of a three-step session, where the first two steps have attachments (uploads).</p>
+
+<p><img src="images/finq_session_states.png" alt="image" /></p>
+
+<p><strong>A session is essentially a conversation where each message may include attachments.</strong></p>
+<h3 id='detailed-flow'>Detailed flow</h3>
+<p>An oboarding session is triggered by a <code>HTTP POST</code> to the <code>/sessions</code> endpoint. It has to include three elements:</p>
+
+<ul>
+<li><code>client_id</code>: identifies your tenant application</li>
+<li><code>client_app_key</code>: authorizes the call (safe to be used from a client app)</li>
+<li><code>skill</code>: which skill you&#39;re starting the onboarding session for. This is taken from the skills catalog published and updated on our docs.</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{client_id}}"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"client_app_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{client_app_key}}"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"skill"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xyz_aisp_sbx_#1.0"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Following a successfull call, you will receive a message including:</p>
+
+<ul>
+<li>a <code>session_id</code>: identifies the newly created session. You will use this to submit subsequent steps.</li>
+<li>a <code>nonce</code>: a temporary token safe to be used from a client app. You will use this to submit data in the next iteration - that would be step #1 into your session. Currently the nonce expires in 30 minutes.</li>
+<li>a <code>status</code>: an informative message</li>
+</ul>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"nonce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"F3YXJlCjAwMTZpZGVudGlmaWVyIG5vbmNlcwowMDJlY2lkIHRpbWU8MjAxOS0wNS0zMVQwOToxNToxNS41OTE5Nz"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"session_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7489fe74-a91d-4897-8895-cd5e05c0fc4b"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SESSION_CREATED"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Now that the session is created, you can start submitting data specific to each skill. At each iteration you specify the <code>step</code> and provide the <code>nonce</code> retrieved from the previous one. In a multi-step session, at each step submission, the response message will include a <code>step_id</code> and the <code>nonce</code> for the next step.</p>
+
+<p>Use the <code>/sessions/{session_id}/steps</code> endpoint to submit data for a specific step.</p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{client_id}}"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nonce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{nonce}}"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"skill"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xyz_sbx_#3.0"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"step"</span><span class="p">:</span><span class="w"> </span><span class="s2">"product_form"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12"</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"kittn"</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s2">"meowmeowmeow"</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>At each step, a skill might require specific uploads. An example would be an onboarding session for a credit card product. The KYC (know your customer) flow asks for personal data, ID upload and photo/selfies.</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>Use the <code>/steps/{step_id}/upload</code> endpoint to submit uploads for a specific step.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"kittn"</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s2">"meowmeowmeow"</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
-</tr>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
+<p><img src="images/finq_session.png" alt="image" /></p>
+<h1 id='catalog-api'>Catalog API</h1><h1 id='sessions-api'>Sessions API</h1><h1 id='aisp-apis'>AISP APIs</h1><h1 id='marketplace-apis'>Marketplace APIs</h1><h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
