@@ -247,6 +247,12 @@
                   <li>
                     <a href="#user-onboarding" class="toc-h2 toc-link" data-title="User onboarding">User onboarding</a>
                   </li>
+                  <li>
+                    <a href="#consuming-data" class="toc-h2 toc-link" data-title="Consuming data">Consuming data</a>
+                  </li>
+                  <li>
+                    <a href="#designing-a-tenant-app" class="toc-h2 toc-link" data-title="Designing a tenant app">Designing a tenant app</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -256,10 +262,10 @@
             <a href="#sessions-api" class="toc-h1 toc-link" data-title="Sessions API">Sessions API</a>
           </li>
           <li>
-            <a href="#aisp-apis" class="toc-h1 toc-link" data-title="AISP APIs">AISP APIs</a>
+            <a href="#accounts-api" class="toc-h1 toc-link" data-title="Accounts API">Accounts API</a>
           </li>
           <li>
-            <a href="#marketplace-apis" class="toc-h1 toc-link" data-title="Marketplace APIs">Marketplace APIs</a>
+            <a href="#transactions-api" class="toc-h1 toc-link" data-title="Transactions API">Transactions API</a>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
@@ -296,7 +302,7 @@
 
 <p>Use cases: wallet applications or enterprise systems that need to query for bank accounts and transaction reports.</p>
 <h3 id='payment-initiation'>Payment initiation</h3>
-<p>Based on PSD2 PISP APIs from various banks.</p>
+<p>Initially based on PSD2 PISP APIs from various banks.</p>
 
 <p>Use cases: merchants willing to accept payments through a direct account-to-account transfer bypassing classic payment schemes.</p>
 <h3 id='marketplace'>Marketplace</h3>
@@ -326,17 +332,86 @@
 <p>A servicer may register multiple tenant apps for different business cases or just for technical reasons (eg: test &amp; prod apps).</p>
 
 <p>For a granular access control and reporting, each tenant is required to register the list of skills it connects to.</p>
-<h2 id='security-model'>Security model</h2><h1 id='guide'>Guide</h1>
-<p>This section is for <a href="#tenants">tenant</a> app developers who want to implement the base API (REST &amp; GraphQL). As a roadmap item, we&#39;ll provide open source SDKs to simplify this process.</p>
+<h2 id='security-model'>Security model</h2>
+<p>The Finqware API is protected by a number of keys and tokens.</p>
 
-<p>Implementing Finqware <a href="#skills">skills</a> is always centered around the <strong>end-user</strong> - the individual or institution who owns the data queried through the middleware. As a <a href="#tenants">tenant</a> app developer, you&#39;re implementing two aspects:</p>
+<p>It is important to follow the best practice around where it&#39;s safe to store/use them. You can make an API call from a web application using the <code>client_id</code>, but use an <code>access_token</code> only from your server-side code. Currently, a generally accepted opinion among security experts is that you cannot safely store secrets in a client application.</p>
+
+<table><thead>
+<tr>
+<th>Token/key</th>
+<th>Client</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>client_id</td>
+<td>yes</td>
+<td>An identifier for a tenant app</td>
+</tr>
+<tr>
+<td>client_secret</td>
+<td>no</td>
+<td>A secret generated for each tenant app</td>
+</tr>
+<tr>
+<td>client_app_key</td>
+<td>yes</td>
+<td>Used to initate a user <a href="#user-onboarding">session</a></td>
+</tr>
+<tr>
+<td>temp_token</td>
+<td>yes</td>
+<td>A temporary token that can be exchanged for an access_token</td>
+</tr>
+<tr>
+<td>access_token</td>
+<td>no</td>
+<td>A permanent token authorizing access to user data</td>
+</tr>
+<tr>
+<td>credentials_id</td>
+<td>no</td>
+<td>Points to user data (eg: a bank account, an insurance)</td>
+</tr>
+</tbody></table>
+<h3 id='tenant-level-elements'>Tenant-level elements</h3>
+<p>Each tenant application will have three security elements associated with it:</p>
+
+<ul>
+<li>client_id</li>
+<li>client_secret</li>
+<li>client_app_key</li>
+</ul>
+
+<p>They do not expire, but can be refreshed using the developer&#39;s portal.</p>
+
+<p>As you&#39;ll notice in the developer&#39;s <a href="#guide">guide</a>, a user session ends with receiving a <code>temp_token</code>. The reason we&#39;re not sending the <code>access_token</code> directly is that we designed the session flow to be developed entirely in a web/mobile context. This choice also facilitates the future development of client SDKs. Hence the middleware returns a temporary token that needs to be sent to your backend first and then exchanged for the final <code>access_token</code> via a server-to-Finqware API call.</p>
+
+<p>As a side note: we&#39;re also considering introducing a callback endpoint as an option. Following the end of a session, Finqware would call an API endpoint provided by your server for the token exchange.</p>
+<h3 id='user-level-elements'>User-level elements</h3>
+<p>Taking a user through a <a href="#user-onboarding">session</a> is about obtaining consent to access their data (eg: an existing bank account), or creating new value for that user (eg: selling a new insurance). In both cases, there is at least one target object created at the middleware level.</p>
+
+<p>Finqware does not store data that identifies the owner, but we return a <code>credentials_id</code> that represents your acccess point to these objects.</p>
+
+<p>Practical example: for an account information skill backed by PSD2 AISP, a user may give their consent to access three bank accounts. In this case, your generated <code>credentials_id</code> will point to these three objects.</p>
+
+<p>An API call where <code>credentials_id</code> is specified, needs to be authorized by its respective <code>acccess_token</code>.</p>
+
+<p>Your user may have multiple pairs of [<code>credentials_id</code>, <code>access_token</code>] depending on how many resources they decide to access through your app. Plan and design your user database considering this aspect.</p>
+
+<p><img src="images/credentials.png" alt="image" /></p>
+<h1 id='guide'>Guide</h1>
+<p>This section is for <a href="#tenants">tenant</a> app developers who want to implement the base API (REST &amp; GraphQL). We&#39;ll also make SDK&#39;s available, but the API endpoints will always remain open for those who need maximum flexibility.</p>
+
+<p>Implementing Finqware <a href="#skills">skills</a> is always centered around the <strong>end-user</strong> - that being the individual or institution who owns the data queried through the middleware. As a <a href="#tenants">tenant</a> app developer, you&#39;re implementing two aspects:</p>
 
 <ol>
 <li><p>A conversational UX that takes the user through a number of action steps in order to get access to the data. This is a web or native-mobile UI that takes your user through an onboarding experience.</p></li>
-<li><p>A Backend/server piece that consumes data the user has already consented for.</p></li>
+<li><p>A Backend/server piece that consumes data the user has already consented for in the previous step.</p></li>
 </ol>
 <h2 id='user-onboarding'>User onboarding</h2>
-<p>The first thing to focus on is to offer your user a smooth onboarding experience. It may be a classic wizard with a step-by-step approach or a more inovative approach like chatbot or voice-based UIs.</p>
+<p>The first thing to focus on is to offer your user a smooth onboarding experience. You may design a classic wizard with a step-by-step approach or have a more inovative approach like chatbot or voice-based UIs.</p>
 
 <p>The <a href="#sessions-api">Sessions API</a> helps you implement such a UI. A session is very similar to what most of us know from web programming: an ordered sequence of steps that share the same state. Although this is a unified developer experience, each skill may have particular steps to implement.</p>
 
@@ -396,12 +471,48 @@
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>At each step, a skill might require specific uploads. An example would be an onboarding session for a credit card product. The KYC (know your customer) flow asks for personal data, ID upload and photo/selfies.</p>
+<p>At certain steps, a skill might require specific uploads. An example would be an onboarding session for a credit card product. The KYC (know your customer) flow asks for personal data, ID upload and photo/selfies.</p>
 
 <p>Use the <code>/steps/{step_id}/upload</code> endpoint to submit uploads for a specific step.</p>
 
 <p><img src="images/finq_session.png" alt="image" /></p>
-<h1 id='catalog-api'>Catalog API</h1><h1 id='sessions-api'>Sessions API</h1><h1 id='aisp-apis'>AISP APIs</h1><h1 id='marketplace-apis'>Marketplace APIs</h1><h1 id='errors'>Errors</h1>
+
+<p>In the above diagram please notice the moments where <code>nonce</code> for each step and the <code>temp_token</code> are generated.
+The nonce to be used for any API call related to step #1 is generated when the session is initialized. The nonce to be used for any API call related to step #2 is generated when step #1 data is submitted.</p>
+
+<p>The <a href="#security-model">temp_token</a> is generated when you submit data with the last step - in the example above, the session has two steps, hence it&#39;s generated with Step #2. This marks the end of a successful user session: user consent has been given or the product onboarding was done without any issue.</p>
+
+<p>This is an important point in this flow, as you need to make the switch to the server-side. The switch is made by sending the <code>temp_token</code> to your backend server. This is where you call the <code>/token</code> endpoint to exchange it for an <code>access_token</code> along with the <code>credentials_id</code> that points to the newly created object/s.</p>
+
+<p><img src="images/session_high_level.png" alt="image" /></p>
+
+<p>The call to <code>/token</code> is authenticated by using the <code>client_id</code> and <code>client_secret</code>. The <code>access_token</code> plus the <code>credentials_id</code> need to be stored by your backend along with the end-user data.</p>
+<h2 id='consuming-data'>Consuming data</h2>
+<p>Having the <code>access_token</code> and the <code>credentials_id</code> for a certain resource generated with the flow above, you can now start querying the data.</p>
+
+<p>This is specific for each skill. An account information skill would be used by querying the <code>/accounts</code> and <code>/transactions</code> API endpoints. We&#39;re also planning to release the GrapqhQL endpoints, including support for realtime subscriptions - currently in internal testing phase.</p>
+
+<p>At this stage, all the API calls should be done by your tenant&#39;s backend, authenticated with the tenant&#39;s <code>client_id</code> and <code>client_secret</code>.</p>
+<h2 id='designing-a-tenant-app'>Designing a tenant app</h2>
+<p>As mentioned before, building an application on top of Finqware means <strong>in general</strong> that you have to build a front-end (web/mobile) and a backend. It is unsafe to build a client-only app unless it will run on trusted devices.</p>
+
+<p>It will be possible to build your app entirely on the backend though. This is targeted to enterprise applications.</p>
+<h3 id='the-front-end'>The front-end</h3>
+<p>The challenge here is to design how to keep state between <a href="#user-onboarding">Session</a> steps. State management in web/mobile apps has become a hot topic, especially since Facebook introduced the <a href="https://facebook.github.io/flux/">flux</a> pattern back in 2014. It&#39;s always a matter of taste and depends greatly on what programming language and framework you&#39;re using.</p>
+
+<p>The diagram below is a screenshot of a <a href="https://redux.js.org/">Redux</a> store used in our demo mobile app. The app, which we&#39;ll open source, is actually written with <a href="https://flutter.dev/">Flutter</a> and uses a port of Redux in <a href="https://dart.dev/">Dart</a>.
+In the example below, the client app has a central Redux state where we keep parameters related to the GUI (eg: <code>isLoading</code>) and pervasive data such as what we need for session/steps.</p>
+
+<p><img src="images/app_client_state.png" alt="image" /></p>
+
+<p>A 1st-level branch stores a list of <a href="#skills">skills</a> queried using the Catalog API. The other 1st-level branches are actual objects that store session/step data: <code>webdepo</code> is a bank deposit product and <code>aispSession</code> holds data for any skill based on PSD2 AISP.</p>
+<h3 id='the-backend'>The backend</h3>
+<p>A super simple UML design for your database potentially looks like this:</p>
+
+<p><img src="images/tenant_design.png" alt="image" /></p>
+
+<p>In the example above: an end-user would give you access to multiple financial assets by completing onboarding session/s. Each asset has a pointer to the respective Finqware resource in the form of the pair [<code>finq_credentials_id</code>, <code>finq_access_token</code>]. It also has a number of transactions associated - if the asset is for example a credit card.</p>
+<h1 id='catalog-api'>Catalog API</h1><h1 id='sessions-api'>Sessions API</h1><h1 id='accounts-api'>Accounts API</h1><h1 id='transactions-api'>Transactions API</h1><h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
